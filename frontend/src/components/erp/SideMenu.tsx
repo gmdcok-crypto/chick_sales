@@ -6,20 +6,6 @@ type MenuGroup = { label: string; items: MenuLeaf[] }
 
 const MENUS: MenuGroup[] = [
   {
-    label: '매출',
-    items: [
-      { kind: 'sales-list', label: '매출관리' },
-      { kind: 'sales-new', label: '매출등록' },
-    ],
-  },
-  {
-    label: '매입',
-    items: [
-      { kind: 'purchase-list', label: '매입관리' },
-      { kind: 'purchase-new', label: '매입등록' },
-    ],
-  },
-  {
     label: '거래처',
     items: [
       { kind: 'companies', label: '거래처관리' },
@@ -31,6 +17,20 @@ const MENUS: MenuGroup[] = [
     items: [
       { kind: 'products', label: '품목관리' },
       { kind: 'product-new', label: '품목등록' },
+    ],
+  },
+  {
+    label: '매출',
+    items: [
+      { kind: 'sales-list', label: '매출관리' },
+      { kind: 'sales-new', label: '매출등록' },
+    ],
+  },
+  {
+    label: '매입',
+    items: [
+      { kind: 'purchase-list', label: '매입관리' },
+      { kind: 'purchase-new', label: '매입등록' },
     ],
   },
 ]
