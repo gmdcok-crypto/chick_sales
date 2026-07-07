@@ -1,10 +1,8 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Layout from './components/Layout'
+import TxnSheet from './components/TxnSheet'
 import HomePage from './pages/HomePage'
-import SalesPage from './pages/SalesPage'
-import CompaniesPage from './pages/CompaniesPage'
-import ProductsPage from './pages/ProductsPage'
-import PurchasePage from './pages/PurchasePage'
+import TxnListPage from './pages/TxnListPage'
 import './index.css'
 
 export default function App() {
@@ -13,10 +11,10 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage />} />
-          <Route path="sales" element={<SalesPage />} />
-          <Route path="companies" element={<CompaniesPage />} />
-          <Route path="products" element={<ProductsPage />} />
-          <Route path="purchase" element={<PurchasePage />} />
+          <Route path="sales" element={<TxnListPage kind="sales" />} />
+          <Route path="sales/new" element={<TxnSheet kind="sales" />} />
+          <Route path="purchase" element={<TxnListPage kind="purchase" />} />
+          <Route path="purchase/new" element={<TxnSheet kind="purchase" />} />
         </Route>
       </Routes>
     </BrowserRouter>

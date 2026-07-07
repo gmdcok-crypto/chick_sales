@@ -1,51 +1,58 @@
 import { useEffect, useState } from 'react'
-import { api } from '../api'
+import { Link } from 'react-router-dom'
+import { api, type Dashboard } from '../lib/api'
+import { won } from '../lib/format'
 
 export default function HomePage() {
-  const [status, setStatus] = useState<'loading' | 'ok' | 'error'>('loading')
-  const [db, setDb] = useState('')
+  const [stats, setStats] = useState<Dashboard | null>(null)
+  const [online, setOnline] = useState<boolean | null>(null)
 
   useEffect(() => {
     api
       .health()
-      .then((r) => {
-        setDb(r.database)
-        setStatus('ok')
-      })
-      .catch(() => setStatus('error'))
+      .then(() => setOnline(true))
+      .catch(() => setOnline(false))
+    api.dashboard().then(setStats).catch(() => {})
   }, [])
 
   return (
-    <section className="page">
-      <h2>대시보드</h2>
-      <p className="lead">
-        <code>d:\sister</code> PyQt 프로그램과 동일한 MariaDB를 사용하는 웹/PWA 버전입니다.
-      </p>
-      <div className="card-grid">
-        <article className="card">
-          <h3>서버 연결</h3>
-          {status === 'loading' && <p>확인 중…</p>}
-          {status === 'ok' && (
-            <p className="ok">
-              API 정상 · DB: <strong>{db}</strong>
-            </p>
-          )}
-          {status === 'error' && (
-            <p className="error">
-              API에 연결할 수 없습니다. 백엔드를 실행했는지 확인하세요.
-            </p>
-          )}
+    <div className="home">
+      <section className="hero">
+        <p className="hero__eyebrow">Chick Sales</p>
+        <h1>매출과 매입을<br />한 화면에서</h1>
+        <p className="hero__sub">
+          sister 검증 로직 기반 · 잔액·세액 자동 계산
+        </p>
+        <div className="hero__status">
+          {online === null && '연결 확인 중…'}
+          {online === true && <span className="pill pill--ok">서버 연결됨</span>}
+          {online === false && <span className="pill pill--err">오프라인</span>}
+        </div>
+      </section>
+
+      <section className="stat-grid">
+        <article className="stat-card stat-card--sales">
+          <span>이번 달 매출</span>
+          <strong>{won(stats?.sales_month_total ?? 0)}</strong>
+          <small>{stats?.sales_month_count ?? 0}건 · 입금 {won(stats?.sales_month_payment ?? 0)}</small>
         </article>
-        <article className="card">
-          <h3>구현 예정 (sister 기준)</h3>
-          <ul className="feature-list">
-            <li>거래처·품목·매출 관리</li>
-            <li>거래처 원장 / 미수</li>
-            <li>입금·출고·계산서·시세</li>
-            <li>매입 모듈 (신규)</li>
-          </ul>
+        <article className="stat-card stat-card--purchase">
+          <span>이번 달 매입</span>
+          <strong>{won(stats?.purchase_month_total ?? 0)}</strong>
+          <small>{stats?.purchase_month_count ?? 0}건 · 지급 {won(stats?.purchase_month_payment ?? 0)}</small>
         </article>
-      </div>
-    </section>
+      </section>
+
+      <section className="quick-actions">
+        <Link to="/sales/new" className="action-card action-card--sales">
+          <span>매출 등록</span>
+          <small>거래처 · 품목 · 입금</small>
+        </Link>
+        <Link to="/purchase/new" className="action-card action-card--purchase">
+          <span>매입 등록</span>
+          <small>매입처 · 품목 · 지급</small>
+        </Link>
+      </section>
+    </div>
   )
 }

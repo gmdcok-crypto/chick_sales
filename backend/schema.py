@@ -99,6 +99,39 @@ _TABLES = [
     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
     """,
     """
+    CREATE TABLE IF NOT EXISTS purchase (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        company_id INT NOT NULL,
+        purchase_date DATE NOT NULL,
+        trace_no VARCHAR(64) NOT NULL DEFAULT '',
+        txn_type VARCHAR(20) NOT NULL DEFAULT 'purchase',
+        prev_balance BIGINT NOT NULL DEFAULT 0,
+        total_amount BIGINT NOT NULL DEFAULT 0,
+        payment BIGINT NOT NULL DEFAULT 0,
+        balance BIGINT NOT NULL DEFAULT 0,
+        status VARCHAR(20) NOT NULL DEFAULT 'active',
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+    """,
+    """
+    CREATE TABLE IF NOT EXISTS purchase_item (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        purchase_id INT NOT NULL,
+        product_id INT NULL,
+        product_name VARCHAR(200) NOT NULL DEFAULT '',
+        spec VARCHAR(200) NOT NULL DEFAULT '',
+        unit_price INT NOT NULL DEFAULT 0,
+        qty DECIMAL(12,1) NOT NULL DEFAULT 0,
+        amount BIGINT NOT NULL DEFAULT 0,
+        tax_amount BIGINT NOT NULL DEFAULT 0,
+        trace_no VARCHAR(64) NOT NULL DEFAULT '',
+        sort_order INT NOT NULL DEFAULT 0,
+        created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+        updated_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
+    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci
+    """,
+    """
     CREATE TABLE IF NOT EXISTS app_user (
         id INT AUTO_INCREMENT PRIMARY KEY,
         username VARCHAR(64) NOT NULL,

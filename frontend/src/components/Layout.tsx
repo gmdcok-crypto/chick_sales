@@ -1,35 +1,40 @@
-import { NavLink, Outlet } from 'react-router-dom'
+import { NavLink, Outlet, useLocation } from 'react-router-dom'
 
-const tabs = [
+const nav = [
   { to: '/', label: '홈', end: true },
   { to: '/sales', label: '매출' },
-  { to: '/companies', label: '거래처' },
-  { to: '/products', label: '품목' },
   { to: '/purchase', label: '매입' },
 ]
 
 export default function Layout() {
+  const loc = useLocation()
+  const isSheet = /\/(new|edit)/.test(loc.pathname)
+
   return (
-    <div className="app">
-      <header className="app-header">
-        <h1>Chick Sales</h1>
-        <p className="subtitle">매출·매입 PWA</p>
+    <div className="shell">
+      <header className="topbar">
+        <div className="brand">
+          <span className="brand-mark">CS</span>
+          <div>
+            <strong>Chick Sales</strong>
+            <span>매출 · 매입</span>
+          </div>
+        </div>
       </header>
-      <main className="app-main">
+
+      <main className={`main ${isSheet ? 'main--sheet' : ''}`}>
         <Outlet />
       </main>
-      <nav className="bottom-nav" aria-label="메인 메뉴">
-        {tabs.map((tab) => (
-          <NavLink
-            key={tab.to}
-            to={tab.to}
-            end={tab.end}
-            className={({ isActive }) => (isActive ? 'nav-item active' : 'nav-item')}
-          >
-            {tab.label}
-          </NavLink>
-        ))}
-      </nav>
+
+      {!isSheet && (
+        <nav className="tabbar" aria-label="메인">
+          {nav.map((t) => (
+            <NavLink key={t.to} to={t.to} end={t.end} className="tabbar__item">
+              {t.label}
+            </NavLink>
+          ))}
+        </nav>
+      )}
     </div>
   )
 }
