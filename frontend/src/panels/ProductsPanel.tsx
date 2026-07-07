@@ -24,16 +24,16 @@ export default function ProductsPanel() {
   }, [filter])
 
   const columns: Column<Product>[] = [
-    { key: 'product_code', title: '품목코드', width: 90 },
-    { key: 'product_name', title: '품목명', width: 160 },
-    { key: 'spec', title: '규격', width: 100 },
-    { key: 'origin', title: '원산지', width: 90, render: (r) => r.origin || '' },
-    { key: 'cold_type', title: '보관', width: 64, align: 'center', render: (r) => r.cold_type || '' },
-    { key: 'tax_type', title: '과세', width: 56, align: 'center' },
+    { key: 'product_code', title: '품목코드', width: 88 },
+    { key: 'product_name', title: '품목명', width: 140 },
+    { key: 'spec', title: '규격', width: 72 },
+    { key: 'origin', title: '원산지', width: 72, render: (r) => r.origin || '' },
+    { key: 'cold_type', title: '보관', width: 52, align: 'center', render: (r) => r.cold_type || '' },
+    { key: 'tax_type', title: '과세', width: 48, align: 'center' },
     {
       key: 'product_report_no',
       title: '품목제조보고번호',
-      width: 140,
+      width: 120,
       render: (r) => r.product_report_no || '',
     },
     { key: 'pouch_content', title: '파우치', width: 100, render: (r) => r.pouch_content || '' },

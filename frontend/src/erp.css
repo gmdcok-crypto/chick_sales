@@ -288,7 +288,7 @@ body {
 .dg {
   width: 100%;
   border-collapse: collapse;
-  table-layout: auto;
+  table-layout: fixed;
   font-size: var(--erp-font-size-sm);
 }
 

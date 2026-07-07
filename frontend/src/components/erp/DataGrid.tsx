@@ -66,7 +66,10 @@ export default function DataGrid<T>({
                   >
                     <td className="dg__no">{index + 1}</td>
                     {columns.map((col) => (
-                      <td key={col.key} style={{ textAlign: col.align || 'left' }}>
+                      <td
+                        key={col.key}
+                        style={{ width: col.width, textAlign: col.align || 'left' }}
+                      >
                         {col.render ? col.render(row, index) : (row as Record<string, unknown>)[col.key] as ReactNode}
                       </td>
                     ))}
