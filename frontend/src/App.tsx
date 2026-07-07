@@ -5,9 +5,12 @@ import HomePage from './pages/HomePage'
 import TxnListPage from './pages/TxnListPage'
 import CompaniesPage from './pages/CompaniesPage'
 import CompanyNewPage from './pages/CompanyNewPage'
+import ErpApp from './components/erp/ErpApp'
+import { DESKTOP_QUERY, useMediaQuery } from './hooks/useMediaQuery'
 import './index.css'
+import './erp.css'
 
-export default function App() {
+function MobileApp() {
   return (
     <BrowserRouter>
       <Routes>
@@ -22,5 +25,16 @@ export default function App() {
         </Route>
       </Routes>
     </BrowserRouter>
+  )
+}
+
+export default function App() {
+  const isDesktop = useMediaQuery(DESKTOP_QUERY)
+
+  return (
+    <>
+      <div className="desktop-only">{isDesktop && <ErpApp />}</div>
+      <div className="mobile-only">{!isDesktop && <MobileApp />}</div>
+    </>
   )
 }
