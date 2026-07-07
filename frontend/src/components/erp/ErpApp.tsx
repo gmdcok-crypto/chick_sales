@@ -1,11 +1,9 @@
 import { useEffect } from 'react'
-import { TabProvider, useTabs } from '../../context/TabContext'
+import { TabProvider } from '../../context/TabContext'
 import SideMenu from './SideMenu'
-import TabStrip from './TabStrip'
 import TabPanel from '../../panels/TabPanel'
 
 function ErpBody() {
-  const { openTab } = useTabs()
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -22,15 +20,11 @@ function ErpBody() {
     <div className="erp-shell" data-pencil-layer="shell">
       <SideMenu />
       <div className="erp-main" data-pencil-layer="main">
-        <TabStrip />
         <div className="erp-workspace" data-pencil-layer="workspace">
           <TabPanel />
         </div>
         <div className="erp-footer" data-pencil-layer="footer">
           <span>Chick Sales ERP</span>
-          <button type="button" className="erp-footer__link" onClick={() => openTab('home')}>
-            홈
-          </button>
         </div>
       </div>
     </div>
