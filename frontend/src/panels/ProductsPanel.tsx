@@ -24,8 +24,8 @@ export default function ProductsPanel() {
   }, [filter])
 
   const columns: Column<Product>[] = [
-    { key: 'product_code', title: '코드', width: 80 },
-    { key: 'product_name', title: '품목명' },
+    { key: 'product_code', title: '품목코드', width: 90 },
+    { key: 'product_name', title: '품목명', width: 160 },
     { key: 'spec', title: '규격', width: 100 },
     { key: 'origin', title: '원산지', width: 90, render: (r) => r.origin || '' },
     { key: 'cold_type', title: '보관', width: 64, align: 'center', render: (r) => r.cold_type || '' },

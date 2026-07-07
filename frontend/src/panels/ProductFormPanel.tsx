@@ -18,6 +18,7 @@ const empty = {
 export default function ProductFormPanel() {
   const { openTab } = useTabs()
   const [form, setForm] = useState(empty)
+  const [productCode, setProductCode] = useState('')
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
 
@@ -32,10 +33,11 @@ export default function ProductFormPanel() {
     }
     setSaving(true)
     try {
-      await api.createProduct({
+      const created = await api.createProduct({
         ...form,
         product_name: form.product_name.trim(),
       })
+      setProductCode(created.product_code)
       setForm(empty)
       openTab('products')
     } catch (e) {
@@ -53,10 +55,11 @@ export default function ProductFormPanel() {
     }
     setSaving(true)
     try {
-      await api.createProduct({
+      const created = await api.createProduct({
         ...form,
         product_name: form.product_name.trim(),
       })
+      setProductCode(created.product_code)
       setForm({ ...empty, tax_type: form.tax_type, cold_type: form.cold_type, origin: form.origin })
     } catch (e) {
       setError(e instanceof Error ? e.message : '저장 실패')
@@ -76,13 +79,17 @@ export default function ProductFormPanel() {
           <button type="button" className="erp-btn" disabled={saving} onClick={saveAndContinue}>
             저장 후 계속
           </button>
-          <button type="button" className="erp-btn" onClick={() => setForm(empty)}>
+          <button type="button" className="erp-btn" onClick={() => { setForm(empty); setProductCode('') }}>
             초기화
           </button>
         </div>
       </div>
 
       <div className="erp-form-grid">
+        <label>
+          <span>품목코드</span>
+          <input value={productCode} readOnly placeholder="저장 시 자동 생성 (P000001)" />
+        </label>
         <label>
           <span>품목명 *</span>
           <input
