@@ -4,8 +4,10 @@ export type TabKind =
   | 'home'
   | 'sales-list'
   | 'sales-new'
+  | 'sales-receivables'
   | 'purchase-list'
   | 'purchase-new'
+  | 'purchase-payables'
   | 'companies'
   | 'company-new'
   | 'company-edit'
@@ -20,14 +22,24 @@ export type ErpTab = {
   entityId?: number
 }
 
-const SINGLETON: TabKind[] = ['home', 'sales-list', 'purchase-list', 'companies', 'products']
+const SINGLETON: TabKind[] = [
+  'home',
+  'sales-list',
+  'sales-receivables',
+  'purchase-list',
+  'purchase-payables',
+  'companies',
+  'products',
+]
 
 const DEFAULT_TITLES: Record<TabKind, string> = {
   home: '홈',
   'sales-list': '매출관리',
   'sales-new': '매출등록',
+  'sales-receivables': '미수금',
   'purchase-list': '매입관리',
   'purchase-new': '매입등록',
+  'purchase-payables': '미지급금',
   companies: '거래처관리',
   'company-new': '거래처등록',
   'company-edit': '거래처수정',

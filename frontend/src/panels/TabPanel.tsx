@@ -6,6 +6,7 @@ import CompaniesPanel from './CompaniesPanel'
 import CompanyFormPanel from './CompanyFormPanel'
 import ProductsPanel from './ProductsPanel'
 import ProductFormPanel from './ProductFormPanel'
+import OutstandingPanel from './OutstandingPanel'
 
 export default function TabPanel() {
   const { activeTab } = useTabs()
@@ -17,10 +18,14 @@ export default function TabPanel() {
       return <TxnListPanel kind="sales" />
     case 'sales-new':
       return <TxnFormPanel kind="sales" />
+    case 'sales-receivables':
+      return <OutstandingPanel kind="receivables" />
     case 'purchase-list':
       return <TxnListPanel kind="purchase" />
     case 'purchase-new':
       return <TxnFormPanel kind="purchase" />
+    case 'purchase-payables':
+      return <OutstandingPanel kind="payables" />
     case 'companies':
       return <CompaniesPanel />
     case 'company-new':

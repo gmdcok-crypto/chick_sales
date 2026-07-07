@@ -24,6 +24,7 @@ const MENUS: MenuGroup[] = [
     items: [
       { kind: 'sales-list', label: '매출관리' },
       { kind: 'sales-new', label: '매출등록' },
+      { kind: 'sales-receivables', label: '미수금' },
     ],
   },
   {
@@ -31,6 +32,7 @@ const MENUS: MenuGroup[] = [
     items: [
       { kind: 'purchase-list', label: '매입관리' },
       { kind: 'purchase-new', label: '매입등록' },
+      { kind: 'purchase-payables', label: '미지급금' },
     ],
   },
 ]

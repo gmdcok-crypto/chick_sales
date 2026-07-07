@@ -13,6 +13,13 @@ async function request<T>(path: string, init?: RequestInit): Promise<T> {
   return res.json() as Promise<T>
 }
 
+export type OutstandingBalance = {
+  id: number
+  company_code: string
+  company_name: string
+  balance: number
+}
+
 export type Company = {
   id: number
   company_code: string
@@ -108,4 +115,18 @@ export const api = {
   createPurchase: (body: object) =>
     request<TxnRow>('/api/purchases', { method: 'POST', body: JSON.stringify(body) }),
   deletePurchase: (id: number) => request(`/api/purchases/${id}`, { method: 'DELETE' }),
+  receivables: (asOfDate: string, q = '') => {
+    const params = new URLSearchParams()
+    if (asOfDate) params.set('as_of_date', asOfDate)
+    if (q) params.set('q', q)
+    const qs = params.toString()
+    return request<OutstandingBalance[]>(`/api/receivables${qs ? `?${qs}` : ''}`)
+  },
+  payables: (asOfDate: string, q = '') => {
+    const params = new URLSearchParams()
+    if (asOfDate) params.set('as_of_date', asOfDate)
+    if (q) params.set('q', q)
+    const qs = params.toString()
+    return request<OutstandingBalance[]>(`/api/payables${qs ? `?${qs}` : ''}`)
+  },
 }

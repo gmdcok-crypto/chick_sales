@@ -337,6 +337,69 @@ def get_prev_balance(company_id: int, txn_date: str, kind: str = PARTNER_SALES) 
     return int(row2[0]) if row2 and row2[0] is not None else 0
 
 
+def list_outstanding_balances(
+    kind: str = PARTNER_SALES,
+    to_date: str = "",
+    company_id: Optional[int] = None,
+    q: str = "",
+    only_positive: bool = True,
+    limit: int = 2000,
+):
+    """기준일 기준 거래처별 잔액(미수금/미지급금) 목록."""
+    table, date_col, _ = _balance_table(kind)
+    as_of = (to_date or "").strip()[:10]
+    if not as_of:
+        from datetime import date
+
+        as_of = date.today().isoformat()
+
+    with get_db() as conn:
+        cur = conn.cursor()
+        sql = f"""
+            SELECT id, company_code, company_name, balance FROM (
+                SELECT
+                    c.id,
+                    c.company_code,
+                    c.company_name,
+                    COALESCE(
+                        (
+                            SELECT t.balance
+                            FROM {table} t
+                            WHERE t.status != 'deleted'
+                              AND t.company_id = c.id
+                              AND t.{date_col} <= %s
+                            ORDER BY t.{date_col} DESC, t.id DESC
+                            LIMIT 1
+                        ),
+                        c.base_balance
+                    ) AS balance
+                FROM company c
+                WHERE c.status != 'deleted'
+        """
+        params: list[Any] = [as_of]
+        if company_id:
+            sql += " AND c.id = %s"
+            params.append(company_id)
+        if q.strip():
+            sql += " AND c.company_name LIKE %s"
+            params.append(f"%{q.strip()}%")
+        sql += ") balances"
+        if only_positive:
+            sql += " WHERE balance > 0"
+        else:
+            sql += " WHERE balance != 0"
+        sql += " ORDER BY balance DESC, id DESC"
+        if limit:
+            sql += " LIMIT %s"
+            params.append(limit)
+        cur.execute(sql, tuple(params))
+        rows = [row_to_dict(r, _cols(cur)) for r in cur.fetchall()]
+        cur.close()
+    for row in rows:
+        row["balance"] = int(row.get("balance") or 0)
+    return rows
+
+
 # ---------------------------------------------------------------------------
 # 매출
 # ---------------------------------------------------------------------------

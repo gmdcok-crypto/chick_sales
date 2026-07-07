@@ -266,6 +266,10 @@ body {
   font-size: var(--erp-font-size-sm);
 }
 
+.erp-toolbar__filter input[type='date'] {
+  width: 130px;
+}
+
 .erp-btn {
   padding: 2px 10px;
   border: 1px solid var(--erp-color-border-button);

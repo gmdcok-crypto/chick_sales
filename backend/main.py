@@ -107,6 +107,36 @@ def api_create_product(body: ProductCreate):
     return db.get_product(pid)
 
 
+@app.get("/api/receivables")
+def api_receivables(
+    as_of_date: str = "",
+    q: str = "",
+    company_id: Optional[int] = None,
+):
+    return db.list_outstanding_balances(
+        kind=db.PARTNER_SALES,
+        to_date=as_of_date,
+        company_id=company_id,
+        q=q,
+        only_positive=True,
+    )
+
+
+@app.get("/api/payables")
+def api_payables(
+    as_of_date: str = "",
+    q: str = "",
+    company_id: Optional[int] = None,
+):
+    return db.list_outstanding_balances(
+        kind=db.PARTNER_PURCHASE,
+        to_date=as_of_date,
+        company_id=company_id,
+        q=q,
+        only_positive=True,
+    )
+
+
 @app.get("/api/traces")
 def api_traces():
     return db.list_traces()
