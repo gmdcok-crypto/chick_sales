@@ -23,9 +23,6 @@ function ErpBody() {
         <div className="erp-workspace" data-pencil-layer="workspace">
           <TabPanel />
         </div>
-        <div className="erp-footer" data-pencil-layer="footer">
-          <span>Chick Sales ERP</span>
-        </div>
       </div>
     </div>
   )

@@ -14,24 +14,6 @@ export type TabKind =
   | 'products'
   | 'product-new'
 
-export type ErpTab = {
-  id: string
-  kind: TabKind
-  title: string
-  closable: boolean
-  entityId?: number
-}
-
-const SINGLETON: TabKind[] = [
-  'home',
-  'sales-list',
-  'sales-receivables',
-  'purchase-list',
-  'purchase-payables',
-  'companies',
-  'products',
-]
-
 const DEFAULT_TITLES: Record<TabKind, string> = {
   home: '홈',
   'sales-list': '매출관리',
@@ -47,88 +29,46 @@ const DEFAULT_TITLES: Record<TabKind, string> = {
   'product-new': '품목등록',
 }
 
+type NavState = {
+  kind: TabKind
+  entityId?: number
+}
+
 type OpenTabOptions = {
   title?: string
   entityId?: number
 }
 
+export type ActiveView = {
+  kind: TabKind
+  entityId?: number
+  title: string
+}
+
 type TabContextValue = {
-  tabs: ErpTab[]
-  activeId: string
-  activeTab: ErpTab
+  activeTab: ActiveView
   openTab: (kind: TabKind, options?: OpenTabOptions) => void
-  closeTab: (id: string) => void
-  setActive: (id: string) => void
 }
 
 const TabContext = createContext<TabContextValue | null>(null)
 
 export function TabProvider({ children }: { children: ReactNode }) {
-  const [tabs, setTabs] = useState<ErpTab[]>([
-    { id: 'home', kind: 'home', title: '홈', closable: false },
-  ])
-  const [activeId, setActiveId] = useState('home')
+  const [nav, setNav] = useState<NavState>({ kind: 'home' })
 
   const openTab = useCallback((kind: TabKind, options?: OpenTabOptions) => {
-    setTabs((prev) => {
-      if (SINGLETON.includes(kind)) {
-        const existing = prev.find((t) => t.kind === kind)
-        if (existing) {
-          setActiveId(existing.id)
-          return prev
-        }
-      }
-      if (kind === 'company-edit' && options?.entityId) {
-        const existing = prev.find(
-          (t) => t.kind === 'company-edit' && t.entityId === options.entityId,
-        )
-        if (existing) {
-          setActiveId(existing.id)
-          return prev
-        }
-      }
-      const id = `${kind}-${Date.now()}`
-      setActiveId(id)
-      return [
-        ...prev,
-        {
-          id,
-          kind,
-          title: options?.title || DEFAULT_TITLES[kind],
-          closable: kind !== 'home',
-          entityId: options?.entityId,
-        },
-      ]
-    })
+    setNav({ kind, entityId: options?.entityId })
   }, [])
 
-  const closeTab = useCallback((id: string) => {
-    setTabs((prev) => {
-      const tab = prev.find((t) => t.id === id)
-      if (!tab || !tab.closable) return prev
-      const next = prev.filter((t) => t.id !== id)
-      if (activeId === id) {
-        const idx = prev.findIndex((t) => t.id === id)
-        const fallback = next[Math.max(0, idx - 1)] ?? next[0]
-        setActiveId(fallback?.id ?? 'home')
-      }
-      return next.length ? next : prev
-    })
-  }, [activeId])
-
-  const activeTab = tabs.find((t) => t.id === activeId) ?? tabs[0]
-
-  const value = useMemo(
+  const activeTab = useMemo<ActiveView>(
     () => ({
-      tabs,
-      activeId,
-      activeTab,
-      openTab,
-      closeTab,
-      setActive: setActiveId,
+      kind: nav.kind,
+      entityId: nav.entityId,
+      title: DEFAULT_TITLES[nav.kind],
     }),
-    [tabs, activeId, activeTab, openTab, closeTab],
+    [nav],
   )
+
+  const value = useMemo(() => ({ activeTab, openTab }), [activeTab, openTab])
 
   return <TabContext.Provider value={value}>{children}</TabContext.Provider>
 }
