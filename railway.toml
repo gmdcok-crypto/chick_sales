@@ -1,0 +1,8 @@
+# Railway: Root Directory 를 비우고 Docker 로 배포할 때 사용
+[build]
+builder = "DOCKERFILE"
+dockerfilePath = "Dockerfile"
+
+[deploy]
+healthcheckPath = "/api/health"
+restartPolicyType = "ON_FAILURE"
