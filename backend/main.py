@@ -1,5 +1,8 @@
-from fastapi import FastAPI
+from pathlib import Path
+
+from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse
 
 import config
 import db
@@ -17,6 +20,8 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+
+STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 
 @app.get("/api/health")
@@ -43,7 +48,22 @@ def api_list_sales(company_id: int | None = None, from_date: str | None = None, 
 def api_get_sale(sale_id: int):
     sale = db.get_sale_with_items(sale_id)
     if not sale:
-        from fastapi import HTTPException
-
         raise HTTPException(status_code=404, detail="sale not found")
     return sale
+
+
+if STATIC_DIR.is_dir():
+    @app.get("/{full_path:path}")
+    async def serve_pwa(full_path: str):
+        """React SPA + PWA 정적 파일 (Railway 단일 서비스)."""
+        if full_path.startswith("api/"):
+            raise HTTPException(status_code=404, detail="not found")
+
+        if not full_path or full_path == "/":
+            return FileResponse(STATIC_DIR / "index.html")
+
+        candidate = STATIC_DIR / full_path
+        if candidate.is_file():
+            return FileResponse(candidate)
+
+        return FileResponse(STATIC_DIR / "index.html")

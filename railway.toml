@@ -1,8 +1,12 @@
-# Railway: Root Directory 를 비우고 Docker 로 배포할 때 사용
+# Railway — Chick Sales 단일 서비스 (Docker)
+# 루트 Directory 비움. 상세: RAILWAY.md
+
 [build]
 builder = "DOCKERFILE"
 dockerfilePath = "Dockerfile"
+watchPatterns = ["backend/**", "frontend/**", "Dockerfile"]
 
 [deploy]
 healthcheckPath = "/api/health"
+healthcheckTimeout = 120
 restartPolicyType = "ON_FAILURE"
