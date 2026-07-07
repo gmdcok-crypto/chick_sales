@@ -25,6 +25,8 @@ export default function TabPanel() {
       return <CompaniesPanel />
     case 'company-new':
       return <CompanyFormPanel />
+    case 'company-edit':
+      return <CompanyFormPanel companyId={activeTab.entityId} />
     case 'products':
       return <ProductsPanel />
     case 'product-new':

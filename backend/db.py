@@ -59,7 +59,7 @@ def list_companies(q: str = "", limit: int = 500):
     with get_db() as conn:
         cur = conn.cursor()
         sql = """
-            SELECT id, company_code, company_name, phone, manager_name,
+            SELECT id, company_code, company_name, biz_no, ceo_name, phone, manager_name,
                    base_balance, tax_invoice_yn, status
             FROM company WHERE status != 'deleted'
         """
@@ -81,7 +81,8 @@ def get_company(company_id: int):
         cur.execute(
             """
             SELECT id, company_code, company_name, biz_no, ceo_name, phone,
-                   manager_name, manager_mobile, address, base_balance, tax_invoice_yn, status
+                   manager_name, manager_mobile, address, business_type, business_item,
+                   base_balance, tax_invoice_yn, status
             FROM company WHERE id=%s AND status!='deleted'
             """,
             (company_id,),
@@ -140,6 +141,57 @@ def create_company(data: dict) -> int:
         new_id = cur.lastrowid
         cur.close()
     return int(new_id)
+
+
+def update_company(company_id: int, data: dict) -> bool:
+    name = (data.get("company_name") or "").strip()
+    if not name:
+        raise ValueError("거래처명은 필수입니다.")
+    with get_db() as conn:
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT id FROM company WHERE id=%s AND status!='deleted'",
+            (company_id,),
+        )
+        if not cur.fetchone():
+            cur.close()
+            return False
+        cur.execute(
+            """
+            SELECT id FROM company
+            WHERE company_name=%s AND status!='deleted' AND id != %s LIMIT 1
+            """,
+            (name, company_id),
+        )
+        if cur.fetchone():
+            cur.close()
+            raise ValueError("이미 등록된 거래처명입니다.")
+        cur.execute(
+            """
+            UPDATE company SET
+                company_name=%s, biz_no=%s, ceo_name=%s, business_type=%s, business_item=%s,
+                address=%s, phone=%s, manager_name=%s, manager_mobile=%s, base_balance=%s,
+                tax_invoice_yn=%s
+            WHERE id=%s AND status!='deleted'
+            """,
+            (
+                name,
+                (data.get("biz_no") or "").strip() or None,
+                (data.get("ceo_name") or "").strip() or None,
+                (data.get("business_type") or "").strip() or None,
+                (data.get("business_item") or "").strip() or None,
+                (data.get("address") or "").strip() or None,
+                (data.get("phone") or "").strip() or None,
+                (data.get("manager_name") or "").strip() or None,
+                (data.get("manager_mobile") or "").strip() or None,
+                int(data.get("base_balance") or 0),
+                (data.get("tax_invoice_yn") or "Y").strip() or "Y",
+                company_id,
+            ),
+        )
+        n = cur.rowcount
+        cur.close()
+    return n > 0
 
 
 def list_products(q: str = "", limit: int = 500):

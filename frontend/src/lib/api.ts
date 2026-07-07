@@ -19,6 +19,8 @@ export type Company = {
   company_name: string
   biz_no?: string | null
   ceo_name?: string | null
+  business_type?: string | null
+  business_item?: string | null
   phone: string | null
   manager_name: string | null
   manager_mobile?: string | null
@@ -78,8 +80,11 @@ export const api = {
   health: () => request<{ status: string }>('/api/health'),
   dashboard: () => request<Dashboard>('/api/dashboard'),
   companies: (q = '') => request<Company[]>(`/api/companies?q=${encodeURIComponent(q)}`),
+  getCompany: (id: number) => request<Company>(`/api/companies/${id}`),
   createCompany: (body: object) =>
     request<Company>('/api/companies', { method: 'POST', body: JSON.stringify(body) }),
+  updateCompany: (id: number, body: object) =>
+    request<Company>(`/api/companies/${id}`, { method: 'PUT', body: JSON.stringify(body) }),
   products: (q = '') => request<Product[]>(`/api/products?q=${encodeURIComponent(q)}`),
   createProduct: (body: object) =>
     request<Product>('/api/products', { method: 'POST', body: JSON.stringify(body) }),

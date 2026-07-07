@@ -46,6 +46,13 @@ export default function CompaniesPanel() {
     [rows],
   )
 
+  const openEdit = (row: Company) => {
+    openTab('company-edit', {
+      entityId: row.id,
+      title: `거래처수정 — ${row.company_name}`,
+    })
+  }
+
   return (
     <div className="erp-panel">
       <div className="erp-toolbar">
@@ -53,6 +60,14 @@ export default function CompaniesPanel() {
         <div className="erp-toolbar__actions">
           <button type="button" className="erp-btn" onClick={() => load()} disabled={loading}>
             조회
+          </button>
+          <button
+            type="button"
+            className="erp-btn"
+            disabled={!selected}
+            onClick={() => selected && openEdit(selected)}
+          >
+            수정
           </button>
           <button type="button" className="erp-btn erp-btn--primary" onClick={() => openTab('company-new')}>
             신규
@@ -76,7 +91,7 @@ export default function CompaniesPanel() {
         rowKey={(r) => r.id}
         selectedKey={selected?.id ?? null}
         onSelect={setSelected}
-        onDoubleClick={() => openTab('company-new')}
+        onDoubleClick={(row) => openEdit(row)}
         emptyText={loading ? '불러오는 중…' : '등록된 거래처가 없습니다.'}
         footer={
           <span>

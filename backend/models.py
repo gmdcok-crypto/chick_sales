@@ -45,6 +45,10 @@ class CompanyCreate(BaseModel):
     tax_invoice_yn: str = "Y"
 
 
+class CompanyUpdate(CompanyCreate):
+    pass
+
+
 class ProductCreate(BaseModel):
     product_name: str
     product_report_no: str = ""

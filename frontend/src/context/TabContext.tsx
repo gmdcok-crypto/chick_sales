@@ -8,6 +8,7 @@ export type TabKind =
   | 'purchase-new'
   | 'companies'
   | 'company-new'
+  | 'company-edit'
   | 'products'
   | 'product-new'
 
@@ -16,6 +17,7 @@ export type ErpTab = {
   kind: TabKind
   title: string
   closable: boolean
+  entityId?: number
 }
 
 const SINGLETON: TabKind[] = ['home', 'sales-list', 'purchase-list', 'companies', 'products']
@@ -28,15 +30,21 @@ const DEFAULT_TITLES: Record<TabKind, string> = {
   'purchase-new': '매입등록',
   companies: '거래처관리',
   'company-new': '거래처등록',
+  'company-edit': '거래처수정',
   products: '품목관리',
   'product-new': '품목등록',
+}
+
+type OpenTabOptions = {
+  title?: string
+  entityId?: number
 }
 
 type TabContextValue = {
   tabs: ErpTab[]
   activeId: string
   activeTab: ErpTab
-  openTab: (kind: TabKind, title?: string) => void
+  openTab: (kind: TabKind, options?: OpenTabOptions) => void
   closeTab: (id: string) => void
   setActive: (id: string) => void
 }
@@ -49,10 +57,19 @@ export function TabProvider({ children }: { children: ReactNode }) {
   ])
   const [activeId, setActiveId] = useState('home')
 
-  const openTab = useCallback((kind: TabKind, title?: string) => {
+  const openTab = useCallback((kind: TabKind, options?: OpenTabOptions) => {
     setTabs((prev) => {
       if (SINGLETON.includes(kind)) {
         const existing = prev.find((t) => t.kind === kind)
+        if (existing) {
+          setActiveId(existing.id)
+          return prev
+        }
+      }
+      if (kind === 'company-edit' && options?.entityId) {
+        const existing = prev.find(
+          (t) => t.kind === 'company-edit' && t.entityId === options.entityId,
+        )
         if (existing) {
           setActiveId(existing.id)
           return prev
@@ -65,8 +82,9 @@ export function TabProvider({ children }: { children: ReactNode }) {
         {
           id,
           kind,
-          title: title || DEFAULT_TITLES[kind],
+          title: options?.title || DEFAULT_TITLES[kind],
           closable: kind !== 'home',
+          entityId: options?.entityId,
         },
       ]
     })
