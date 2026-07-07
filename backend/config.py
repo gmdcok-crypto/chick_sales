@@ -56,6 +56,13 @@ DB_USER = _db["user"]
 DB_PASSWORD = _db["password"]
 DB_DATABASE = _db["database"]
 
+IS_RAILWAY = bool(
+    os.environ.get("RAILWAY_ENVIRONMENT")
+    or os.environ.get("RAILWAY_PROJECT_ID")
+    or os.environ.get("MYSQLHOST")
+    or os.environ.get("MYSQL_URL")
+)
+
 # 로컬/기존 설정 호환
 MARIADB_HOST = DB_HOST
 MARIADB_PORT = DB_PORT

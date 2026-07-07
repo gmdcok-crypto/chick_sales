@@ -1,4 +1,9 @@
+from __future__ import annotations
+
 from pathlib import Path
+from typing import Optional
+
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
@@ -6,11 +11,20 @@ from fastapi.responses import FileResponse
 
 import config
 import db
+import schema
+
+
+@asynccontextmanager
+async def lifespan(_app: FastAPI):
+    schema.ensure_schema()
+    yield
+
 
 app = FastAPI(
     title="Chick Sales API",
-    description="sister SCM 웹/PWA용 REST API",
+    description="sister SCM 웹/PWA용 REST API (Railway MySQL)",
     version="0.1.0",
+    lifespan=lifespan,
 )
 
 app.add_middleware(
@@ -26,7 +40,12 @@ STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 @app.get("/api/health")
 def health():
-    return {"status": "ok", "database": config.DB_DATABASE, "host": config.DB_HOST}
+    return {
+        "status": "ok",
+        "database": config.DB_DATABASE,
+        "host": config.DB_HOST,
+        "railway": bool(config.IS_RAILWAY),
+    }
 
 
 @app.get("/api/companies")
@@ -40,7 +59,11 @@ def api_list_products():
 
 
 @app.get("/api/sales")
-def api_list_sales(company_id: int | None = None, from_date: str | None = None, to_date: str | None = None):
+def api_list_sales(
+    company_id: Optional[int] = None,
+    from_date: Optional[str] = None,
+    to_date: Optional[str] = None,
+):
     return db.list_sales(company_id=company_id, from_date=from_date, to_date=to_date)
 
 

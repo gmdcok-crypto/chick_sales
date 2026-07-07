@@ -1,61 +1,81 @@
-# Railway 배포 가이드 — Chick Sales + MySQL
+# Chick Sales — Railway 배포 체크리스트
 
-PWA + API를 **한 Railway 서비스**로, DB는 **Railway MySQL**을 사용합니다.
+PWA + API **한 서비스**, DB는 **Railway MySQL**.
 
-## 1. 프로젝트 생성
+## 1단계: GitHub 연결
 
-1. Railway → **New Project**
-2. **Deploy from GitHub** → `gmdcok-crypto/chick_sales`
-3. 앱 서비스: **Root Directory 비움** (Dockerfile 사용)
+1. https://railway.com → **New Project**
+2. **Deploy from GitHub repo** → `gmdcok-crypto/chick_sales`
+3. 앱 서비스 설정:
+   - **Root Directory**: *(비움)*
+   - Builder: **Dockerfile** (`railway.toml` 자동 적용)
 
-## 2. MySQL 추가
+## 2단계: MySQL 추가
 
-1. 프로젝트에서 **+ New** → **Database** → **MySQL**
-2. MySQL 서비스가 생성되면 Variables에 자동으로:
-   - `MYSQLHOST`, `MYSQLPORT`, `MYSQLUSER`, `MYSQLPASSWORD`, `MYSQLDATABASE`
-   - `MYSQL_URL` (내부 연결용)
+1. 같은 프로젝트에서 **+ New** → **Database** → **MySQL**
+2. MySQL 서비스 생성 완료 대기
 
-## 3. 앱에 MySQL 변수 연결
+## 3단계: 앱 ↔ MySQL 연결 (중요)
 
-앱 서비스 → **Variables** → **Add Variable** → **Reference**
+1. **MySQL 서비스** 클릭 → **Connect** 또는 **Variables**
+2. **chick_sales 앱 서비스**에 MySQL 변수 연결 (Reference)
 
-MySQL 서비스의 변수를 앱에 연결합니다 (Railway UI에서 MySQL 서비스 선택 후 참조).
+앱 Variables에 아래가 보이면 성공:
 
-또는 MySQL 서비스 Variables 탭에서 **Connect** / **Add to Service** 로 앱에 연결.
-
-> 수동으로 넣을 필요 없이 **Reference**로 연결하는 것이 가장 안전합니다.
-
-## 4. 스키마 (최초 1회)
-
-Railway MySQL은 빈 DB입니다. sister 테이블을 만들어야 합니다.
-
-**방법 A** — sister DB 덤프 후 Railway MySQL에 import  
-**방법 B** — Railway MySQL 콘솔/Data 탭에서 `company`, `product`, `sales` 테이블 생성
-
-(sister `db.py`의 CREATE TABLE 문과 호환)
-
-## 5. 배포 확인
-
-- `https://xxxx.up.railway.app/` → PWA
-- `https://xxxx.up.railway.app/api/health` → DB 이름·호스트 확인
-
-정상 예시:
-```json
-{"status":"ok","database":"railway","host":"mysql.railway.internal"}
+```
+MYSQLHOST
+MYSQLPORT
+MYSQLUSER
+MYSQLPASSWORD
+MYSQLDATABASE
+MYSQL_URL
 ```
 
-## 6. 로컬 개발
+수동 입력 불필요. Reference로 연결하세요.
 
-로컬 MySQL/MariaDB 사용 시 `backend/.env`:
+## 4단계: 배포
+
+1. 앱 서비스 **Deploy** (또는 Git push 시 자동)
+2. **Settings → Networking → Generate Domain** (공개 URL 생성)
+
+## 5단계: 확인
+
+| URL | 기대 결과 |
+|-----|-----------|
+| `https://xxxx.up.railway.app/` | PWA 화면 |
+| `https://xxxx.up.railway.app/api/health` | `{"status":"ok","railway":true,...}` |
+
+앱 시작 시 **테이블 자동 생성** (`company`, `product`, `sales` 등).
+
+## 로컬 개발 (선택)
+
+Railway MySQL을 로컬에서 쓰려면 앱 Variables의 `MYSQL_URL`을 `backend/.env`에 복사.
+
+로컬 sister DB를 쓰려면:
 
 ```
 MARIADB_HOST=127.0.0.1
+MARIADB_PASSWORD=...
 MARIADB_DATABASE=sister
-...
 ```
 
-## 변경 사항 (MySQL 전환)
+## 문제 해결
 
-- DB 드라이버: `mariadb` → `PyMySQL` (Railway MySQL 최적화, Docker 빌드 단순화)
-- Railway `MYSQL*` / `MYSQL_URL` 자동 인식
-- 로컬은 기존 `MARIADB_*` 변수 그대로 사용 가능
+| 증상 | 해결 |
+|------|------|
+| Railpack / start.sh 오류 | Root Directory 비우기, Dockerfile 사용 |
+| DB 연결 실패 | MySQL Reference 변수 연결 확인 |
+| 빈 목록 | 정상 — Railway DB는 새 DB, 데이터는 import 필요 |
+| sister 데이터 이전 | sister DB 덤프 → Railway MySQL import |
+
+## 아키텍처
+
+```
+[브라우저/PWA]
+      ↓
+[Railway 앱 1개 — Docker]
+  ├─ React 정적 파일 (/)
+  └─ FastAPI (/api/*)
+      ↓
+[Railway MySQL]
+```
