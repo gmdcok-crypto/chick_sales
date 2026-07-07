@@ -50,20 +50,20 @@ export default function TxnListPanel({ kind }: { kind: Kind }) {
   }
 
   const columns: Column<TxnRow>[] = [
-    { key: 'id', title: '번호', width: 56, align: 'right' },
-    { key: 'date', title: kind === 'sales' ? '매출일' : '매입일', width: 96, render: (r) => txnDate(r) },
-    { key: 'company_name', title: kind === 'sales' ? '거래처' : '매입처', width: 160 },
-    { key: 'trace_no', title: '이력번호', width: 120 },
-    { key: 'prev_balance', title: '전잔액', width: 100, align: 'right', render: (r) => won(r.prev_balance) },
-    { key: 'total_amount', title: '합계', width: 100, align: 'right', render: (r) => won(r.total_amount) },
+    { key: 'id', title: '번호', width: 64, align: 'right' },
+    { key: 'date', title: kind === 'sales' ? '매출일' : '매입일', width: 100, render: (r) => txnDate(r) },
+    { key: 'company_name', title: kind === 'sales' ? '거래처' : '매입처' },
+    { key: 'trace_no', title: '이력번호', width: 130 },
+    { key: 'prev_balance', title: '전잔액', width: 110, align: 'right', render: (r) => won(r.prev_balance) },
+    { key: 'total_amount', title: '합계', width: 110, align: 'right', render: (r) => won(r.total_amount) },
     {
       key: 'payment',
       title: kind === 'sales' ? '입금' : '지급',
-      width: 100,
+      width: 110,
       align: 'right',
       render: (r) => won(r.payment),
     },
-    { key: 'balance', title: '잔액', width: 100, align: 'right', render: (r) => won(r.balance) },
+    { key: 'balance', title: '잔액', width: 120, align: 'right', render: (r) => won(r.balance) },
   ]
 
   const totals = useMemo(

@@ -92,12 +92,12 @@ export default function TxnFormPanel({ kind }: { kind: Kind }) {
             <thead>
               <tr>
                 <th className="dg__no">No</th>
-                <th style={{ width: 180 }}>품목명</th>
-                <th style={{ width: 100 }}>규격</th>
-                <th style={{ width: 88 }}>단가</th>
-                <th style={{ width: 72 }}>수량</th>
-                <th style={{ width: 96 }}>공급가액</th>
-                <th style={{ width: 80 }}>세액</th>
+                <th style={{ minWidth: 200 }}>품목명</th>
+                <th style={{ minWidth: 120 }}>규격</th>
+                <th style={{ width: 100 }}>단가</th>
+                <th style={{ width: 80 }}>수량</th>
+                <th style={{ width: 110 }}>공급가액</th>
+                <th style={{ width: 90 }}>세액</th>
                 <th style={{ width: 32 }} />
               </tr>
             </thead>
