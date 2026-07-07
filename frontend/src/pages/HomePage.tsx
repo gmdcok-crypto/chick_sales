@@ -43,7 +43,7 @@ export default function HomePage() {
         </article>
       </section>
 
-      <section className="quick-actions">
+      <section className="quick-actions quick-actions--3">
         <Link to="/sales/new" className="action-card action-card--sales">
           <span>매출 등록</span>
           <small>거래처 · 품목 · 입금</small>
@@ -51,6 +51,10 @@ export default function HomePage() {
         <Link to="/purchase/new" className="action-card action-card--purchase">
           <span>매입 등록</span>
           <small>매입처 · 품목 · 지급</small>
+        </Link>
+        <Link to="/companies/new" className="action-card action-card--neutral">
+          <span>거래처 등록</span>
+          <small>매출·매입 공통</small>
         </Link>
       </section>
     </div>

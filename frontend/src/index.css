@@ -195,6 +195,14 @@ body {
   gap: 0.75rem;
 }
 
+.quick-actions--3 {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 480px) {
+  .quick-actions--3 { grid-template-columns: repeat(3, 1fr); }
+}
+
 .action-card {
   text-decoration: none;
   color: inherit;
@@ -211,6 +219,127 @@ body {
 .action-card small { color: var(--muted); font-size: 0.75rem; }
 .action-card--sales span { color: var(--sales); }
 .action-card--purchase span { color: var(--purchase); }
+.action-card--neutral span { color: #334155; }
+
+.btn--neutral { background: #334155; }
+
+.sheet--neutral { --accent: #334155; --accent-soft: #f1f5f9; }
+
+.search-bar {
+  margin-bottom: 0.85rem;
+}
+
+.search-bar input {
+  width: 100%;
+  padding: 0.7rem 0.85rem;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font: inherit;
+  background: var(--surface);
+}
+
+.company-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1rem;
+  box-shadow: var(--shadow);
+  border: 1px solid var(--border);
+}
+
+.company-card__head {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.company-card__code {
+  display: block;
+  font-size: 0.68rem;
+  color: var(--muted);
+  font-weight: 600;
+}
+
+.company-card__head strong { font-size: 1rem; }
+
+.company-card__balance {
+  font-size: 0.85rem;
+  font-weight: 700;
+  color: var(--sales);
+  white-space: nowrap;
+}
+
+.company-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin: 0;
+}
+
+.company-card__meta dt {
+  font-size: 0.65rem;
+  color: var(--muted);
+}
+
+.company-card__meta dd {
+  margin: 0;
+  font-size: 0.82rem;
+}
+
+.form-sheet {
+  flex: 1;
+  padding: 0 1rem 1rem;
+  overflow-y: auto;
+}
+
+.form-section {
+  background: var(--surface);
+  border-radius: var(--radius);
+  padding: 1rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--border);
+}
+
+.form-section h2 {
+  margin: 0 0 0.75rem;
+  font-size: 0.82rem;
+  color: var(--muted);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.field-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.65rem;
+}
+
+.sheet__footer--form {
+  position: sticky;
+  bottom: 0;
+  margin: 0 -1rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+.sheet__footer--form .btn {
+  width: 100%;
+  padding: 0.85rem;
+}
+
+.sheet__hint {
+  font-size: 0.82rem;
+  color: var(--muted);
+  padding: 0 1rem;
+  margin: 0;
+}
+
+.sheet__hint a {
+  color: var(--sales);
+  font-weight: 600;
+}
 
 /* List */
 .list-page__top {

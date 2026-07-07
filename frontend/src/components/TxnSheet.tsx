@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { api, type Company, type Product } from '../lib/api'
 import { todayISO, won } from '../lib/format'
 import { emptyLine, summarize, type DraftLine } from '../lib/txnCalc'
@@ -183,6 +183,11 @@ export default function TxnSheet({ kind }: Props) {
       <LineGrid kind={kind} lines={lines} taxMap={taxMap} onChange={setLines} />
 
       {error && <p className="sheet__error">{error}</p>}
+      {!companyId && companyQuery.trim() && (
+        <p className="sheet__hint">
+          등록되지 않은 거래처입니다. <Link to="/companies/new">거래처 등록</Link>
+        </p>
+      )}
 
       <footer className="sheet__footer">
         <div className="summary">

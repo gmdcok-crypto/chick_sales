@@ -29,3 +29,17 @@ class PurchaseCreate(BaseModel):
     trace_no: str = ""
     items: List[LineItemIn] = Field(default_factory=list)
     payment: int = 0
+
+
+class CompanyCreate(BaseModel):
+    company_name: str
+    biz_no: str = ""
+    ceo_name: str = ""
+    business_type: str = ""
+    business_item: str = ""
+    address: str = ""
+    phone: str = ""
+    manager_name: str = ""
+    manager_mobile: str = ""
+    base_balance: int = 0
+    tax_invoice_yn: str = "Y"

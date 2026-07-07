@@ -17,9 +17,14 @@ export type Company = {
   id: number
   company_code: string
   company_name: string
+  biz_no?: string | null
+  ceo_name?: string | null
   phone: string | null
   manager_name: string | null
+  manager_mobile?: string | null
+  address?: string | null
   base_balance: number
+  tax_invoice_yn?: string
 }
 
 export type Product = {
@@ -69,6 +74,8 @@ export const api = {
   health: () => request<{ status: string }>('/api/health'),
   dashboard: () => request<Dashboard>('/api/dashboard'),
   companies: (q = '') => request<Company[]>(`/api/companies?q=${encodeURIComponent(q)}`),
+  createCompany: (body: object) =>
+    request<Company>('/api/companies', { method: 'POST', body: JSON.stringify(body) }),
   products: (q = '') => request<Product[]>(`/api/products?q=${encodeURIComponent(q)}`),
   traces: () => request<string[]>('/api/traces'),
   salesBalance: (companyId: number, date: string) =>

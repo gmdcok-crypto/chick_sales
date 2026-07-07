@@ -4,6 +4,7 @@ const nav = [
   { to: '/', label: '홈', end: true },
   { to: '/sales', label: '매출' },
   { to: '/purchase', label: '매입' },
+  { to: '/companies', label: '거래처' },
 ]
 
 export default function Layout() {

@@ -79,13 +79,67 @@ def get_company(company_id: int):
     with get_db() as conn:
         cur = conn.cursor()
         cur.execute(
-            "SELECT id, company_code, company_name, base_balance FROM company WHERE id=%s AND status!='deleted'",
+            """
+            SELECT id, company_code, company_name, biz_no, ceo_name, phone,
+                   manager_name, manager_mobile, address, base_balance, tax_invoice_yn, status
+            FROM company WHERE id=%s AND status!='deleted'
+            """,
             (company_id,),
         )
         row = cur.fetchone()
         cols = _cols(cur)
         cur.close()
     return row_to_dict(row, cols) if row else None
+
+
+def _next_company_code(conn) -> str:
+    cur = conn.cursor()
+    cur.execute("SELECT COALESCE(MAX(id), 0) + 1 FROM company")
+    (next_id,) = cur.fetchone()
+    cur.close()
+    return f"C{int(next_id):06d}"
+
+
+def create_company(data: dict) -> int:
+    name = (data.get("company_name") or "").strip()
+    if not name:
+        raise ValueError("거래처명은 필수입니다.")
+    with get_db() as conn:
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT id FROM company WHERE company_name=%s AND status!='deleted' LIMIT 1",
+            (name,),
+        )
+        if cur.fetchone():
+            cur.close()
+            raise ValueError("이미 등록된 거래처명입니다.")
+        code = _next_company_code(conn)
+        cur.execute(
+            """
+            INSERT INTO company (
+                company_code, company_name, biz_no, ceo_name, business_type, business_item,
+                address, phone, manager_name, manager_mobile, base_balance,
+                tax_invoice_yn, status
+            ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,'active')
+            """,
+            (
+                code,
+                name,
+                (data.get("biz_no") or "").strip() or None,
+                (data.get("ceo_name") or "").strip() or None,
+                (data.get("business_type") or "").strip() or None,
+                (data.get("business_item") or "").strip() or None,
+                (data.get("address") or "").strip() or None,
+                (data.get("phone") or "").strip() or None,
+                (data.get("manager_name") or "").strip() or None,
+                (data.get("manager_mobile") or "").strip() or None,
+                int(data.get("base_balance") or 0),
+                (data.get("tax_invoice_yn") or "Y").strip() or "Y",
+            ),
+        )
+        new_id = cur.lastrowid
+        cur.close()
+    return int(new_id)
 
 
 def list_products(q: str = "", limit: int = 500):
