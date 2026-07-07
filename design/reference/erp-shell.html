@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chick Sales ERP — Pencil Reference</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Malgun Gothic', 'Segoe UI', sans-serif;
+      font-size: 12px;
+      background: #ece9d8;
+      color: #000;
+    }
+    .shell { display: flex; width: 1440px; height: 900px; overflow: hidden; }
+    .sidebar {
+      width: 200px;
+      flex-shrink: 0;
+      background: linear-gradient(180deg, #f4f4f4, #e4e4e4);
+      border-right: 1px solid #a0a0a0;
+      display: flex;
+      flex-direction: column;
+    }
+    .brand {
+      padding: 8px 10px;
+      background: #2d5a8c;
+      color: #fff;
+      font-weight: 700;
+    }
+    .tree { padding: 4px 0; flex: 1; }
+    .tree-item { padding: 4px 8px; min-height: 24px; display: flex; align-items: center; gap: 4px; }
+    .tree-item.active { background: #316ac5; color: #fff; }
+    .tree-item.branch { font-weight: 600; }
+    .tree-item.leaf { padding-left: 22px; }
+    .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+    .tabs { display: flex; background: #d6d3ce; border-bottom: 1px solid #a0a0a0; min-height: 26px; }
+    .tab { padding: 0 10px; background: #c0c0c0; border-right: 1px solid #a0a0a0; display: flex; align-items: center; min-height: 26px; }
+    .tab.active { background: #f0f0f0; font-weight: 600; }
+    .workspace { flex: 1; background: #f0f0f0; display: flex; flex-direction: column; min-height: 0; }
+    .toolbar {
+      display: flex; align-items: center; gap: 8px; padding: 4px 6px;
+      background: linear-gradient(180deg, #fafafa, #e4e4e4);
+      border-bottom: 1px solid #a0a0a0;
+    }
+    .toolbar strong { min-width: 72px; }
+    .btn {
+      padding: 2px 10px; border: 1px solid #707070;
+      background: linear-gradient(180deg, #fff, #e8e8e8); min-height: 22px;
+    }
+    .btn.primary {
+      background: linear-gradient(180deg, #4a7fc1, #2d5a8c);
+      color: #fff; border-color: #1e3f66;
+    }
+    .grid-wrap { flex: 1; background: #fff; overflow: auto; }
+    table { width: 100%; border-collapse: collapse; font-size: 12px; }
+    th, td { border: 1px solid #d4d4d4; padding: 1px 5px; height: 22px; text-align: left; }
+    th { background: linear-gradient(180deg, #f8f8f8, #e0e0e0); font-weight: 600; }
+    .footer {
+      display: flex; justify-content: space-between; padding: 2px 8px;
+      background: #d6d3ce; border-top: 1px solid #a0a0a0; font-size: 11px;
+    }
+  </style>
+</head>
+<body>
+  <div class="shell" data-pencil-layer="shell">
+    <aside class="sidebar" data-pencil-layer="sidebar">
+      <div class="brand" data-pencil-layer="sidebar-brand">Chick Sales ERP</div>
+      <nav class="tree" data-pencil-layer="tree-menu">
+        <div class="tree-item">▪ 홈</div>
+        <div class="tree-item branch">▼ 거래처</div>
+        <div class="tree-item leaf active">· 거래처관리</div>
+        <div class="tree-item leaf">· 거래처등록</div>
+        <div class="tree-item branch">▼ 품목</div>
+        <div class="tree-item branch">▼ 매출</div>
+        <div class="tree-item branch">▼ 매입</div>
+      </nav>
+    </aside>
+    <div class="main" data-pencil-layer="main">
+      <div class="tabs" data-pencil-layer="tab-strip">
+        <div class="tab">홈</div>
+        <div class="tab active">거래처관리 ×</div>
+      </div>
+      <div class="workspace" data-pencil-layer="workspace">
+        <div class="toolbar" data-pencil-layer="toolbar">
+          <strong>거래처관리</strong>
+          <button class="btn primary">+ 등록</button>
+          <button class="btn">새로고침</button>
+        </div>
+        <div class="grid-wrap" data-pencil-layer="data-grid">
+          <table>
+            <thead>
+              <tr><th>No</th><th>거래처명</th><th>대표자</th><th>연락처</th><th>잔액</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>샘플거래처</td><td>홍길동</td><td>010-0000-0000</td><td>1,000,000</td></tr>
+              <tr><td>2</td><td>테스트상사</td><td>김철수</td><td>02-123-4567</td><td>500,000</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="footer" data-pencil-layer="footer">
+        <span>Chick Sales ERP</span><span style="color:#06c">홈</span>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

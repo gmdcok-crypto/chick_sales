@@ -4,7 +4,7 @@ export default function TabStrip() {
   const { tabs, activeId, setActive, closeTab } = useTabs()
 
   return (
-    <div className="erp-tabs" role="tablist">
+    <div className="erp-tabs" role="tablist" data-pencil-layer="tab-strip">
       {tabs.map((tab) => (
         <div
           key={tab.id}

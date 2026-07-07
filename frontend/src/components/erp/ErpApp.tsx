@@ -19,14 +19,14 @@ function ErpBody() {
   }, [])
 
   return (
-    <div className="erp-shell">
+    <div className="erp-shell" data-pencil-layer="shell">
       <SideMenu />
-      <div className="erp-main">
+      <div className="erp-main" data-pencil-layer="main">
         <TabStrip />
-        <div className="erp-workspace">
+        <div className="erp-workspace" data-pencil-layer="workspace">
           <TabPanel />
         </div>
-        <div className="erp-footer">
+        <div className="erp-footer" data-pencil-layer="footer">
           <span>Chick Sales ERP</span>
           <button type="button" className="erp-footer__link" onClick={() => openTab('home')}>
             홈

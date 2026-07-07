@@ -1,0 +1,8 @@
+{
+  "variables": {
+    "color/brand": { "value": "#2d5a8c" },
+    "color/accent": { "value": "#316ac5" },
+    "color/bg-shell": { "value": "#ece9d8" },
+    "layout/sidebar-width": { "value": "200px" }
+  }
+}

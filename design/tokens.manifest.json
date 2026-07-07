@@ -1,0 +1,36 @@
+{
+  "$schema": "./tokens.schema.json",
+  "description": "Pencil 변수 매핑 — design/chick-sales-erp.pen 과 동기화",
+  "variables": {
+    "color/text": { "value": "#000000", "css": "--erp-color-text" },
+    "color/text-muted": { "value": "#666666", "css": "--erp-color-text-muted" },
+    "color/brand": { "value": "#2d5a8c", "css": "--erp-color-brand" },
+    "color/brand-dark": { "value": "#1e3f66", "css": "--erp-color-brand-dark" },
+    "color/accent": { "value": "#316ac5", "css": "--erp-color-accent" },
+    "color/bg-shell": { "value": "#ece9d8", "css": "--erp-color-bg-shell" },
+    "color/bg-workspace": { "value": "#f0f0f0", "css": "--erp-color-bg-workspace" },
+    "color/bg-sidebar-top": { "value": "#f4f4f4", "css": "--erp-color-sidebar-bg-top" },
+    "color/bg-sidebar-bottom": { "value": "#e4e4e4", "css": "--erp-color-sidebar-bg-bottom" },
+    "color/border": { "value": "#a0a0a0", "css": "--erp-color-border" },
+    "color/border-input": { "value": "#7f9db9", "css": "--erp-color-border-input" },
+    "layout/sidebar-width": { "value": "200px", "css": "--erp-sidebar-width" },
+    "layout/tab-height": { "value": "26px", "css": "--erp-tab-height" },
+    "layout/row-height": { "value": "22px", "css": "--erp-row-height" },
+    "typography/font-family": { "value": "'Malgun Gothic', 'Segoe UI', sans-serif", "css": "--erp-font-family" },
+    "typography/font-size-sm": { "value": "12px", "css": "--erp-font-size-sm" }
+  },
+  "layers": {
+    "shell": "components/erp/ErpApp.tsx — .erp-shell",
+    "sidebar": "components/erp/SideMenu.tsx — .erp-sidebar",
+    "sidebar-brand": "components/erp/SideMenu.tsx — .erp-sidebar__brand",
+    "tree-menu": "components/erp/SideMenu.tsx — .erp-tree",
+    "main": "components/erp/ErpApp.tsx — .erp-main",
+    "tab-strip": "components/erp/TabStrip.tsx — .erp-tabs",
+    "workspace": "components/erp/ErpApp.tsx — .erp-workspace",
+    "footer": "components/erp/ErpApp.tsx — .erp-footer",
+    "toolbar": "panels/* — .erp-toolbar",
+    "data-grid": "components/erp/DataGrid.tsx — .dg",
+    "form-header": "panels/TxnFormPanel.tsx — .erp-form-header",
+    "home-dashboard": "panels/HomePanel.tsx — .erp-home-grid"
+  }
+}

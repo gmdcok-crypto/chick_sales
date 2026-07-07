@@ -59,9 +59,9 @@ export default function SideMenu() {
   }, [activeTab.kind])
 
   return (
-    <aside className="erp-sidebar">
-      <div className="erp-sidebar__brand">Chick Sales ERP</div>
-      <nav className="erp-tree" aria-label="메뉴">
+    <aside className="erp-sidebar" data-pencil-layer="sidebar">
+      <div className="erp-sidebar__brand" data-pencil-layer="sidebar-brand">Chick Sales ERP</div>
+      <nav className="erp-tree" aria-label="메뉴" data-pencil-layer="tree-menu">
         <button
           type="button"
           className={`erp-tree__item erp-tree__item--root${activeTab.kind === 'home' ? ' erp-tree__item--active' : ''}`}

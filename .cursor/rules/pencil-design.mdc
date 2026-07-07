@@ -1,0 +1,39 @@
+---
+description: Pencil 디자인 파일(.pen)과 ERP UI 코드 동기화
+globs:
+  - design/**
+  - frontend/src/design/**
+  - frontend/src/erp.css
+  - frontend/src/components/erp/**
+  - frontend/src/panels/**
+---
+
+# Pencil UI 동기화
+
+## 디자인 파일
+- `design/chick-sales-erp.pen` — Pencil에서 열어 편집 (MCP는 **열린 탭**만 접근)
+- `design/tokens.manifest.json` — 변수·레이어 매핑
+- `design/reference/erp-shell.html` — 레이아웃 참고
+
+## 토큰
+- 소스: `frontend/src/design/tokens.css` (CSS 변수)
+- Pencil 변수 변경 시 `get_variables` → `design/tokens.export.json` → `node scripts/sync-pencil-tokens.mjs`
+
+## 레이어 ID (`data-pencil-layer`)
+| ID | 컴포넌트 |
+|----|----------|
+| shell | ErpApp `.erp-shell` |
+| sidebar | SideMenu `.erp-sidebar` |
+| sidebar-brand | SideMenu `.erp-sidebar__brand` |
+| tree-menu | SideMenu `.erp-tree` |
+| main | ErpApp `.erp-main` |
+| tab-strip | TabStrip `.erp-tabs` |
+| workspace | ErpApp `.erp-workspace` |
+| footer | ErpApp `.erp-footer` |
+| toolbar | Panel `.erp-toolbar` |
+| data-grid | DataGrid `.dg-wrap` |
+
+## 동기화 규칙
+1. 색·간격·폰트는 `tokens.css` 변수로만 변경 (하드코딩 금지)
+2. 레이아웃 구조 변경은 `.pen`과 React 컴포넌트 함께 수정
+3. `export_html`로보낸 HTML은 참고용; 비즈니스 로직은 React에 유지

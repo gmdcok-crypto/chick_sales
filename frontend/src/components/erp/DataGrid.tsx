@@ -30,7 +30,7 @@ export default function DataGrid<T>({
   footer,
 }: Props<T>) {
   return (
-    <div className="dg-wrap">
+    <div className="dg-wrap" data-pencil-layer="data-grid">
       <div className="dg-scroll">
         <table className="dg">
           <thead>
