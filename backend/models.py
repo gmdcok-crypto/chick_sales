@@ -43,3 +43,13 @@ class CompanyCreate(BaseModel):
     manager_mobile: str = ""
     base_balance: int = 0
     tax_invoice_yn: str = "Y"
+
+
+class ProductCreate(BaseModel):
+    product_name: str
+    product_report_no: str = ""
+    spec: str = ""
+    origin: str = ""
+    pouch_content: str = ""
+    cold_type: str = ""
+    tax_type: str = "면세"

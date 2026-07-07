@@ -31,6 +31,10 @@ export default function HomePanel() {
           <strong>거래처관리</strong>
           <span>등록 · 조회</span>
         </button>
+        <button type="button" className="erp-home-tile" onClick={() => openTab('products')}>
+          <strong>품목관리</strong>
+          <span>등록 · 조회</span>
+        </button>
         <button type="button" className="erp-home-tile erp-home-tile--accent" onClick={() => openTab('sales-new')}>
           <strong>+ 매출등록</strong>
         </button>

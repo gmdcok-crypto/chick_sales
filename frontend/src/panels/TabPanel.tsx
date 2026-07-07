@@ -4,6 +4,8 @@ import TxnListPanel from './TxnListPanel'
 import TxnFormPanel from './TxnFormPanel'
 import CompaniesPanel from './CompaniesPanel'
 import CompanyFormPanel from './CompanyFormPanel'
+import ProductsPanel from './ProductsPanel'
+import ProductFormPanel from './ProductFormPanel'
 
 export default function TabPanel() {
   const { activeTab } = useTabs()
@@ -23,6 +25,10 @@ export default function TabPanel() {
       return <CompaniesPanel />
     case 'company-new':
       return <CompanyFormPanel />
+    case 'products':
+      return <ProductsPanel />
+    case 'product-new':
+      return <ProductFormPanel />
     default:
       return <HomePanel />
   }

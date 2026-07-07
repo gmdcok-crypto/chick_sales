@@ -22,6 +22,13 @@ const MENUS = [
       { kind: 'company-new' as const, label: '거래처등록' },
     ],
   },
+  {
+    label: '품목',
+    items: [
+      { kind: 'products' as const, label: '품목관리' },
+      { kind: 'product-new' as const, label: '품목등록' },
+    ],
+  },
 ]
 
 export default function MenuBar() {

@@ -11,7 +11,7 @@ from pathlib import Path
 import config
 import db
 import schema
-from models import CompanyCreate, PurchaseCreate, SaleCreate
+from models import CompanyCreate, ProductCreate, PurchaseCreate, SaleCreate
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
 
@@ -77,6 +77,23 @@ def api_create_company(body: CompanyCreate):
 @app.get("/api/products")
 def api_products(q: str = ""):
     return db.list_products(q=q)
+
+
+@app.get("/api/products/{product_id}")
+def api_get_product(product_id: int):
+    row = db.get_product(product_id)
+    if not row:
+        raise HTTPException(404, "not found")
+    return row
+
+
+@app.post("/api/products", status_code=201)
+def api_create_product(body: ProductCreate):
+    try:
+        pid = db.create_product(body.model_dump())
+    except ValueError as e:
+        raise HTTPException(400, str(e)) from e
+    return db.get_product(pid)
 
 
 @app.get("/api/traces")

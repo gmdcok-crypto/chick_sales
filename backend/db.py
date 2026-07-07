@@ -146,19 +146,83 @@ def list_products(q: str = "", limit: int = 500):
     with get_db() as conn:
         cur = conn.cursor()
         sql = """
-            SELECT id, product_code, product_name, spec, origin, tax_type, status
+            SELECT id, product_code, product_name, product_report_no, spec, origin,
+                   pouch_content, cold_type, tax_type, status
             FROM product WHERE status != 'deleted'
         """
         params: list[Any] = []
         if q.strip():
-            sql += " AND product_name LIKE %s"
-            params.append(f"%{q.strip()}%")
+            sql += " AND (product_name LIKE %s OR product_code LIKE %s OR spec LIKE %s)"
+            like = f"%{q.strip()}%"
+            params.extend([like, like, like])
         sql += " ORDER BY product_name ASC LIMIT %s"
         params.append(limit)
         cur.execute(sql, tuple(params))
         rows = [row_to_dict(r, _cols(cur)) for r in cur.fetchall()]
         cur.close()
     return rows
+
+
+def get_product(product_id: int):
+    with get_db() as conn:
+        cur = conn.cursor()
+        cur.execute(
+            """
+            SELECT id, product_code, product_name, product_report_no, spec, origin,
+                   pouch_content, cold_type, tax_type, status
+            FROM product WHERE id=%s AND status!='deleted'
+            """,
+            (product_id,),
+        )
+        row = cur.fetchone()
+        cols = _cols(cur)
+        cur.close()
+    return row_to_dict(row, cols) if row else None
+
+
+def _next_product_code(conn) -> str:
+    cur = conn.cursor()
+    cur.execute("SELECT COALESCE(MAX(id), 0) + 1 FROM product")
+    (next_id,) = cur.fetchone()
+    cur.close()
+    return f"P{int(next_id):06d}"
+
+
+def create_product(data: dict) -> int:
+    name = (data.get("product_name") or "").strip()
+    if not name:
+        raise ValueError("품목명은 필수입니다.")
+    with get_db() as conn:
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT id FROM product WHERE product_name=%s AND status!='deleted' LIMIT 1",
+            (name,),
+        )
+        if cur.fetchone():
+            cur.close()
+            raise ValueError("이미 등록된 품목명입니다.")
+        code = _next_product_code(conn)
+        cur.execute(
+            """
+            INSERT INTO product (
+                product_code, product_name, product_report_no, spec, origin,
+                pouch_content, cold_type, tax_type, status
+            ) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,'active')
+            """,
+            (
+                code,
+                name,
+                (data.get("product_report_no") or "").strip(),
+                (data.get("spec") or "").strip(),
+                (data.get("origin") or "").strip(),
+                (data.get("pouch_content") or "").strip(),
+                (data.get("cold_type") or "").strip(),
+                (data.get("tax_type") or "면세").strip() or "면세",
+            ),
+        )
+        new_id = cur.lastrowid
+        cur.close()
+    return int(new_id)
 
 
 def product_tax_map() -> dict[str, str]:

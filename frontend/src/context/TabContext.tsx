@@ -8,6 +8,8 @@ export type TabKind =
   | 'purchase-new'
   | 'companies'
   | 'company-new'
+  | 'products'
+  | 'product-new'
 
 export type ErpTab = {
   id: string
@@ -16,7 +18,7 @@ export type ErpTab = {
   closable: boolean
 }
 
-const SINGLETON: TabKind[] = ['home', 'sales-list', 'purchase-list', 'companies']
+const SINGLETON: TabKind[] = ['home', 'sales-list', 'purchase-list', 'companies', 'products']
 
 const DEFAULT_TITLES: Record<TabKind, string> = {
   home: '홈',
@@ -26,6 +28,8 @@ const DEFAULT_TITLES: Record<TabKind, string> = {
   'purchase-new': '매입등록',
   companies: '거래처관리',
   'company-new': '거래처등록',
+  products: '품목관리',
+  'product-new': '품목등록',
 }
 
 type TabContextValue = {

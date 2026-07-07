@@ -32,7 +32,11 @@ export type Product = {
   product_code: string
   product_name: string
   spec: string
+  origin?: string
+  pouch_content?: string
+  cold_type?: string
   tax_type: string
+  product_report_no?: string
 }
 
 export type LineItem = {
@@ -77,6 +81,8 @@ export const api = {
   createCompany: (body: object) =>
     request<Company>('/api/companies', { method: 'POST', body: JSON.stringify(body) }),
   products: (q = '') => request<Product[]>(`/api/products?q=${encodeURIComponent(q)}`),
+  createProduct: (body: object) =>
+    request<Product>('/api/products', { method: 'POST', body: JSON.stringify(body) }),
   traces: () => request<string[]>('/api/traces'),
   salesBalance: (companyId: number, date: string) =>
     request<{ prev_balance: number }>(
