@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { TabProvider, useTabs } from '../../context/TabContext'
-import MenuBar from './MenuBar'
+import SideMenu from './SideMenu'
 import TabStrip from './TabStrip'
 import TabPanel from '../../panels/TabPanel'
 
@@ -20,16 +20,18 @@ function ErpBody() {
 
   return (
     <div className="erp-shell">
-      <MenuBar />
-      <TabStrip />
-      <div className="erp-workspace">
-        <TabPanel />
-      </div>
-      <div className="erp-footer">
-        <span>Chick Sales ERP</span>
-        <button type="button" className="erp-footer__link" onClick={() => openTab('home')}>
-          홈
-        </button>
+      <SideMenu />
+      <div className="erp-main">
+        <TabStrip />
+        <div className="erp-workspace">
+          <TabPanel />
+        </div>
+        <div className="erp-footer">
+          <span>Chick Sales ERP</span>
+          <button type="button" className="erp-footer__link" onClick={() => openTab('home')}>
+            홈
+          </button>
+        </div>
       </div>
     </div>
   )

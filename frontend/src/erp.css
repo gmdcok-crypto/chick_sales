@@ -10,7 +10,7 @@ body {
 
 .erp-shell {
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
   width: 100vw;
   height: 100vh;
   height: 100dvh;
@@ -19,61 +19,125 @@ body {
   overflow: hidden;
 }
 
-/* 메뉴바 */
-.erp-menu {
+.erp-main {
   display: flex;
-  align-items: stretch;
-  background: linear-gradient(180deg, #fafafa 0%, #e8e8e8 100%);
-  border-bottom: 1px solid #a0a0a0;
-  min-height: 28px;
-  flex-shrink: 0;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
 }
 
-.erp-menu__brand {
-  padding: 0 12px;
-  font-weight: 700;
-  font-size: 11px;
+/* 사이드 트리 메뉴 */
+.erp-sidebar {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  width: 200px;
+  flex-shrink: 0;
+  background: linear-gradient(180deg, #f4f4f4 0%, #e4e4e4 100%);
+  border-right: 1px solid #a0a0a0;
+  overflow: hidden;
+}
+
+.erp-sidebar__brand {
+  padding: 8px 10px;
+  font-weight: 700;
+  font-size: 12px;
   background: #2d5a8c;
   color: #fff;
   white-space: nowrap;
+  flex-shrink: 0;
+  border-bottom: 1px solid #1e3f66;
 }
 
-.erp-menu__nav {
-  display: flex;
-  align-items: stretch;
-  flex-wrap: wrap;
+.erp-tree {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding: 4px 0;
 }
 
-.erp-menu__group {
-  display: flex;
-  align-items: stretch;
-  border-right: 1px solid #c0c0c0;
+.erp-tree__group {
+  margin-bottom: 2px;
 }
 
-.erp-menu__label {
-  padding: 0 8px;
-  font-size: 11px;
-  font-weight: 600;
-  color: #444;
+.erp-tree__item {
   display: flex;
   align-items: center;
-  background: #ddd;
-}
-
-.erp-menu__item {
+  gap: 4px;
+  width: 100%;
   border: none;
   background: transparent;
-  padding: 0 10px;
+  padding: 4px 8px;
   font: inherit;
   font-size: 12px;
+  text-align: left;
   cursor: pointer;
+  color: #222;
+  min-height: 24px;
 }
 
-.erp-menu__item:hover {
-  background: #316ac5;
+.erp-tree__item:hover {
+  background: #d8e8ff;
+}
+
+.erp-tree__item--active {
+  background: #316ac5 !important;
   color: #fff;
+}
+
+.erp-tree__item--parent-active {
+  font-weight: 600;
+  color: #1e3f66;
+}
+
+.erp-tree__item--root {
+  font-weight: 600;
+  border-bottom: 1px solid #c8c8c8;
+  margin-bottom: 4px;
+}
+
+.erp-tree__item--branch {
+  font-weight: 600;
+}
+
+.erp-tree__item--leaf {
+  padding-left: 22px;
+  font-weight: 400;
+}
+
+.erp-tree__toggle {
+  width: 14px;
+  font-size: 9px;
+  color: #555;
+  flex-shrink: 0;
+  text-align: center;
+}
+
+.erp-tree__item--active .erp-tree__toggle {
+  color: #fff;
+}
+
+.erp-tree__icon {
+  width: 14px;
+  flex-shrink: 0;
+  text-align: center;
+  color: #666;
+}
+
+.erp-tree__item--active .erp-tree__icon {
+  color: #fff;
+}
+
+.erp-tree__label {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.erp-tree__children {
+  border-left: 1px dotted #b0b0b0;
+  margin-left: 14px;
 }
 
 /* 탭 */
