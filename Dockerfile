@@ -6,7 +6,6 @@ COPY frontend/package.json frontend/package-lock.json ./
 RUN npm ci
 
 COPY frontend/ ./
-# 같은 도메인에서 /api 호출
 ENV VITE_API_BASE=
 RUN npm run build
 
@@ -16,12 +15,6 @@ WORKDIR /app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-
-RUN apt-get update && apt-get install -y --no-install-recommends \
-    gcc \
-    libmariadb-dev \
-    pkg-config \
-    && rm -rf /var/lib/apt/lists/*
 
 COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt

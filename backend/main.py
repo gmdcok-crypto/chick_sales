@@ -26,7 +26,7 @@ STATIC_DIR = Path(__file__).resolve().parent / "static"
 
 @app.get("/api/health")
 def health():
-    return {"status": "ok", "database": config.MARIADB_DATABASE}
+    return {"status": "ok", "database": config.DB_DATABASE, "host": config.DB_HOST}
 
 
 @app.get("/api/companies")

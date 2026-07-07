@@ -1,19 +1,22 @@
-"""MariaDB access — sister 프로젝트와 동일 스키마(company, product, sales) 사용."""
+"""MySQL access — sister 스키마(company, product, sales) 호환."""
 
 from contextlib import contextmanager
 
-import mariadb
+import pymysql
+import pymysql.cursors
 
 import config
 
 
 def get_connection():
-    return mariadb.connect(
-        host=config.MARIADB_HOST,
-        port=config.MARIADB_PORT,
-        user=config.MARIADB_USER,
-        password=config.MARIADB_PASSWORD,
-        database=config.MARIADB_DATABASE,
+    return pymysql.connect(
+        host=config.DB_HOST,
+        port=config.DB_PORT,
+        user=config.DB_USER,
+        password=config.DB_PASSWORD,
+        database=config.DB_DATABASE,
+        charset="utf8mb4",
+        cursorclass=pymysql.cursors.Cursor,
     )
 
 
@@ -46,7 +49,7 @@ def list_companies(limit: int = 500):
             FROM company
             WHERE status != 'deleted'
             ORDER BY company_name ASC
-            LIMIT ?
+            LIMIT %s
             """,
             (limit,),
         )
@@ -66,7 +69,7 @@ def list_products(limit: int = 500):
             FROM product
             WHERE status != 'deleted'
             ORDER BY product_name ASC
-            LIMIT ?
+            LIMIT %s
             """,
             (limit,),
         )
@@ -88,15 +91,15 @@ def list_sales(company_id: int | None = None, from_date=None, to_date=None, limi
         """
         params: list = []
         if company_id:
-            sql += " AND s.company_id = ?"
+            sql += " AND s.company_id = %s"
             params.append(company_id)
         if from_date:
-            sql += " AND s.sales_date >= ?"
+            sql += " AND s.sales_date >= %s"
             params.append(from_date)
         if to_date:
-            sql += " AND s.sales_date <= ?"
+            sql += " AND s.sales_date <= %s"
             params.append(to_date)
-        sql += " ORDER BY s.sales_date DESC, s.id DESC LIMIT ?"
+        sql += " ORDER BY s.sales_date DESC, s.id DESC LIMIT %s"
         params.append(limit)
         cur.execute(sql, tuple(params))
         cols = [d[0] for d in cur.description]
@@ -114,7 +117,7 @@ def get_sale_with_items(sale_id: int):
                    s.txn_type, s.prev_balance, s.total_amount, s.payment, s.balance
             FROM sales s
             JOIN company c ON c.id = s.company_id
-            WHERE s.id = ? AND s.status != 'deleted'
+            WHERE s.id = %s AND s.status != 'deleted'
             """,
             (sale_id,),
         )
@@ -129,7 +132,7 @@ def get_sale_with_items(sale_id: int):
             """
             SELECT id, product_name, spec, unit_price, qty, amount, tax_amount, trace_no
             FROM sales_item
-            WHERE sales_id = ?
+            WHERE sales_id = %s
             ORDER BY sort_order ASC, id ASC
             """,
             (sale_id,),
