@@ -17,10 +17,9 @@ const empty = {
 
 type Props = {
   editId?: number
-  startNew?: boolean
 }
 
-export default function ProductsPanel({ editId, startNew }: Props) {
+export default function ProductsPanel({ editId }: Props) {
   const nameRef = useRef<HTMLInputElement>(null)
 
   const [rows, setRows] = useState<Product[]>([])
@@ -103,9 +102,7 @@ export default function ProductsPanel({ editId, startNew }: Props) {
   useEffect(() => {
     if (editId) loadForEdit(editId)
     else startCreate()
-    // startNew는 메뉴 진입용 prop — 초기 모드만 결정
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [editId])
+  }, [editId, loadForEdit, startCreate])
 
   const resetForm = () => {
     if (isEdit && editingId) loadForEdit(editingId)
