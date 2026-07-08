@@ -39,8 +39,8 @@ export default function TxnFormPanel({ kind }: { kind: Kind }) {
             <button type="button" className="erp-btn" onClick={() => form.addDeposit()}>
               + {payLabel}
             </button>
-            <button type="button" className="erp-btn" onClick={() => openTab('product-new')}>
-              품목등록
+            <button type="button" className="erp-btn" onClick={() => openTab('products')}>
+              품목관리
             </button>
           </div>
         </div>

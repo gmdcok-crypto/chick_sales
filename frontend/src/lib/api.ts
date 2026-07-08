@@ -93,8 +93,11 @@ export const api = {
   updateCompany: (id: number, body: object) =>
     request<Company>(`/api/companies/${id}`, { method: 'PUT', body: JSON.stringify(body) }),
   products: (q = '') => request<Product[]>(`/api/products?q=${encodeURIComponent(q)}`),
+  getProduct: (id: number) => request<Product>(`/api/products/${id}`),
   createProduct: (body: object) =>
     request<Product>('/api/products', { method: 'POST', body: JSON.stringify(body) }),
+  updateProduct: (id: number, body: object) =>
+    request<Product>(`/api/products/${id}`, { method: 'PUT', body: JSON.stringify(body) }),
   traces: () => request<string[]>('/api/traces'),
   salesBalance: (companyId: number, date: string) =>
     request<{ prev_balance: number }>(

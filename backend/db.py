@@ -277,6 +277,52 @@ def create_product(data: dict) -> int:
     return int(new_id)
 
 
+def update_product(product_id: int, data: dict) -> bool:
+    name = (data.get("product_name") or "").strip()
+    if not name:
+        raise ValueError("품목명은 필수입니다.")
+    with get_db() as conn:
+        cur = conn.cursor()
+        cur.execute(
+            "SELECT id FROM product WHERE id=%s AND status!='deleted'",
+            (product_id,),
+        )
+        if not cur.fetchone():
+            cur.close()
+            return False
+        cur.execute(
+            """
+            SELECT id FROM product
+            WHERE product_name=%s AND status!='deleted' AND id != %s LIMIT 1
+            """,
+            (name, product_id),
+        )
+        if cur.fetchone():
+            cur.close()
+            raise ValueError("이미 등록된 품목명입니다.")
+        cur.execute(
+            """
+            UPDATE product SET
+                product_name=%s, product_report_no=%s, spec=%s, origin=%s,
+                pouch_content=%s, cold_type=%s, tax_type=%s
+            WHERE id=%s AND status!='deleted'
+            """,
+            (
+                name,
+                (data.get("product_report_no") or "").strip(),
+                (data.get("spec") or "").strip(),
+                (data.get("origin") or "").strip(),
+                (data.get("pouch_content") or "").strip(),
+                (data.get("cold_type") or "").strip(),
+                (data.get("tax_type") or "면세").strip() or "면세",
+                product_id,
+            ),
+        )
+        n = cur.rowcount
+        cur.close()
+    return n > 0
+
+
 def product_tax_map() -> dict[str, str]:
     with get_db() as conn:
         cur = conn.cursor()

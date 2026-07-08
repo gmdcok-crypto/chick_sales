@@ -57,3 +57,7 @@ class ProductCreate(BaseModel):
     pouch_content: str = ""
     cold_type: str = ""
     tax_type: str = "면세"
+
+
+class ProductUpdate(ProductCreate):
+    pass

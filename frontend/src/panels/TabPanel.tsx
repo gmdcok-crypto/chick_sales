@@ -4,7 +4,6 @@ import TxnListPanel from './TxnListPanel'
 import TxnFormPanel from './TxnFormPanel'
 import CompaniesPanel from './CompaniesPanel'
 import ProductsPanel from './ProductsPanel'
-import ProductFormPanel from './ProductFormPanel'
 import OutstandingPanel from './OutstandingPanel'
 
 export default function TabPanel() {
@@ -29,8 +28,6 @@ export default function TabPanel() {
       return <CompaniesPanel />
     case 'products':
       return <ProductsPanel />
-    case 'product-new':
-      return <ProductFormPanel />
     default:
       return <HomePanel />
   }

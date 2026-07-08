@@ -10,7 +10,6 @@ export type TabKind =
   | 'purchase-payables'
   | 'companies'
   | 'products'
-  | 'product-new'
 
 const DEFAULT_TITLES: Record<TabKind, string> = {
   home: '홈',
@@ -22,7 +21,6 @@ const DEFAULT_TITLES: Record<TabKind, string> = {
   'purchase-payables': '미지급금',
   companies: '거래처관리',
   products: '품목관리',
-  'product-new': '품목등록',
 }
 
 type NavState = {

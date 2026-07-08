@@ -11,10 +11,7 @@ const MENUS: MenuGroup[] = [
   },
   {
     label: '품목',
-    items: [
-      { kind: 'products', label: '품목관리' },
-      { kind: 'product-new', label: '품목등록' },
-    ],
+    items: [{ kind: 'products', label: '품목관리' }],
   },
   {
     label: '매출',
