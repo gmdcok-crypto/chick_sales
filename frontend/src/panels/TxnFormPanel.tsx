@@ -73,7 +73,7 @@ export default function TxnFormPanel({ kind }: { kind: Kind }) {
             </select>
           </label>
           {!form.companyId && form.companyQuery.trim() && (
-            <button type="button" className="erp-btn erp-btn--link" onClick={() => openTab('company-new')}>
+            <button type="button" className="erp-btn erp-btn--link" onClick={() => openTab('companies')}>
               거래처 등록
             </button>
           )}

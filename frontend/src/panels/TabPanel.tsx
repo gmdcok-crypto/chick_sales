@@ -3,7 +3,6 @@ import HomePanel from './HomePanel'
 import TxnListPanel from './TxnListPanel'
 import TxnFormPanel from './TxnFormPanel'
 import CompaniesPanel from './CompaniesPanel'
-import CompanyFormPanel from './CompanyFormPanel'
 import ProductsPanel from './ProductsPanel'
 import ProductFormPanel from './ProductFormPanel'
 import OutstandingPanel from './OutstandingPanel'
@@ -28,10 +27,6 @@ export default function TabPanel() {
       return <OutstandingPanel kind="payables" />
     case 'companies':
       return <CompaniesPanel />
-    case 'company-new':
-      return <CompanyFormPanel />
-    case 'company-edit':
-      return <CompanyFormPanel companyId={activeTab.entityId} />
     case 'products':
       return <ProductsPanel />
     case 'product-new':

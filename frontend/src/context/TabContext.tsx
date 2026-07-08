@@ -9,8 +9,6 @@ export type TabKind =
   | 'purchase-new'
   | 'purchase-payables'
   | 'companies'
-  | 'company-new'
-  | 'company-edit'
   | 'products'
   | 'product-new'
 
@@ -23,8 +21,6 @@ const DEFAULT_TITLES: Record<TabKind, string> = {
   'purchase-new': '매입등록',
   'purchase-payables': '미지급금',
   companies: '거래처관리',
-  'company-new': '거래처등록',
-  'company-edit': '거래처수정',
   products: '품목관리',
   'product-new': '품목등록',
 }

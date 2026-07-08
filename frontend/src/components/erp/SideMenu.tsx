@@ -7,10 +7,7 @@ type MenuGroup = { label: string; items: MenuLeaf[] }
 const MENUS: MenuGroup[] = [
   {
     label: '거래처',
-    items: [
-      { kind: 'companies', label: '거래처관리' },
-      { kind: 'company-new', label: '거래처등록' },
-    ],
+    items: [{ kind: 'companies', label: '거래처관리' }],
   },
   {
     label: '품목',

@@ -169,7 +169,58 @@ body {
   background: var(--erp-color-bg-panel-form);
 }
 
-/* 매출/매입 등록 — 전체 화면 대신 컴팩트 카드 */
+/* 목록 + 등록 한 화면 */
+.erp-panel--split {
+  min-height: 0;
+}
+
+.erp-split {
+  display: flex;
+  flex: 1;
+  min-height: 0;
+  min-width: 0;
+  gap: 0;
+}
+
+.erp-split__list {
+  display: flex;
+  flex-direction: column;
+  width: 42%;
+  min-width: 320px;
+  max-width: 520px;
+  min-height: 0;
+  border-right: 1px solid var(--erp-color-border);
+  background: var(--erp-color-bg-white);
+}
+
+.erp-split__form {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+  background: var(--erp-color-bg-panel-form);
+}
+
+.erp-form-grid--compact {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px 10px;
+  padding: 10px 12px;
+  flex: 0 0 auto;
+  overflow: visible;
+}
+
+.erp-form-grid--compact .erp-form-grid__half {
+  grid-column: span 2;
+}
+
+.erp-form-grid--compact .erp-form-grid__wide {
+  grid-column: span 3;
+}
+
+/* 등록/수정 — 전체 화면 대신 컴팩트 카드 */
+.erp-panel--card-form,
 .erp-panel--txn-form {
   height: auto;
   min-height: 100%;
@@ -178,13 +229,39 @@ body {
   padding: 12px;
 }
 
+.erp-form-card,
 .erp-txn-card {
   width: 100%;
-  max-width: 920px;
+  max-width: 760px;
   border: 1px solid var(--erp-color-border);
   background: var(--erp-color-bg-white);
   display: flex;
   flex-direction: column;
+}
+
+.erp-txn-card {
+  max-width: 920px;
+}
+
+.erp-form-card .erp-form-grid {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px 12px;
+  padding: 12px 14px;
+  flex: 0 0 auto;
+}
+
+.erp-form-card .erp-form-grid__wide {
+  grid-column: span 3;
+}
+
+.erp-form-card .erp-form-grid__half {
+  grid-column: span 2;
+}
+
+.erp-form-hint {
+  padding: 2px 14px 8px;
+  font-size: var(--erp-font-size-xs);
+  color: var(--erp-color-text-muted);
 }
 
 .dg-wrap--txn {
