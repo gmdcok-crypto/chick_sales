@@ -169,6 +169,30 @@ body {
   background: var(--erp-color-bg-panel-form);
 }
 
+/* 매출/매입 등록 — 전체 화면 대신 컴팩트 카드 */
+.erp-panel--txn-form {
+  height: auto;
+  min-height: 100%;
+  overflow: auto;
+  align-items: flex-start;
+  padding: 12px;
+}
+
+.erp-txn-card {
+  width: 100%;
+  max-width: 920px;
+  border: 1px solid var(--erp-color-border);
+  background: var(--erp-color-bg-white);
+  display: flex;
+  flex-direction: column;
+}
+
+.dg-wrap--txn {
+  flex: 0 0 auto;
+  max-height: 280px;
+  border-top: 1px solid var(--erp-color-border);
+}
+
 /* 툴바 */
 .erp-toolbar {
   display: flex;

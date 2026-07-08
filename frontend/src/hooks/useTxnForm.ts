@@ -21,7 +21,7 @@ export function useTxnForm({ kind, onSaved }: Pick<Props, 'kind' | 'onSaved'>) {
   const [traceNo, setTraceNo] = useState('')
   const [prevBalance, setPrevBalance] = useState(0)
   const [lines, setLines] = useState<DraftLine[]>(() =>
-    Array.from({ length: 8 }, emptyLine),
+    Array.from({ length: 4 }, emptyLine),
   )
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState('')
